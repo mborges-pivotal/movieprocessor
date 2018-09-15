@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "movieprocessor",
+                "projectName": "movieprocessor",
+                "workingDirectory": "/Users/marceloborges/pivotal/personal/movieprocessor",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "movieprocessor",
+                "projectName": "movieprocessor",
+                "workingDirectory": "/Users/marceloborges/pivotal/personal/movieprocessor",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
