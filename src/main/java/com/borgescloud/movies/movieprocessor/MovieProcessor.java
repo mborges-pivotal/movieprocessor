@@ -29,8 +29,16 @@ public class MovieProcessor {
 	@Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
 	public Object transform(String line) throws UnsupportedEncodingException {
 
-        String[] fields = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        if (line == null || line.trim().length() <= 0) {
+            return String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", "EMPTY", "EMPTY");
+        }
         
+        String[] fields = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+        if (fields.length <= 0) {
+            return String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", "EMPTY", "EMPTY");
+        }
+
         String name = fields[NAME].substring(1,fields[NAME].length()-1);
 
 		String result = String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", URLEncoder.encode(name, StandardCharsets.UTF_8.toString()), fields[UPC]);
