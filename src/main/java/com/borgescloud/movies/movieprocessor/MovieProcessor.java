@@ -27,21 +27,33 @@ public class MovieProcessor {
      * @throws UnsupportedEncodingException
      */
 	@Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-	public Object transform(String line) throws UnsupportedEncodingException {
+	public Object transform(String line) {
+
+        System.out.println(String.format("line is %s", line));
+
+        String def_result = String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", "EMPTY", "EMPTY");
 
         if (line == null || line.trim().length() <= 0) {
-            return String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", "EMPTY", "EMPTY");
+            return def_result;
         }
         
         String[] fields = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
         if (fields.length <= 0) {
-            return String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", "EMPTY", "EMPTY");
+            return def_result;
         }
 
         String name = fields[NAME].substring(1,fields[NAME].length()-1);
 
-		String result = String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", URLEncoder.encode(name, StandardCharsets.UTF_8.toString()), fields[UPC]);
+        String result = "EMPTY";
+        try {
+            result = String.format("{\"DVD_Title\": \"%s\", \"UPC\": %s}", URLEncoder.encode(name, StandardCharsets.UTF_8.toString()), fields[UPC]);
+        } catch (UnsupportedEncodingException uee) {
+            System.out.println(String.format("%s - %s fields in csv and %s name", uee.getMessage(), fields.length, name));
+            result = def_result;
+        }
+
+        System.out.println(String.format("result is %s", result));
 		return result;
 	}
 }
